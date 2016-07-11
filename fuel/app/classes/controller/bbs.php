@@ -42,8 +42,6 @@ class Controller_Bbs extends Controller
       $comment->body = Input::post('comment_body');
       $comment->save();
       $view->message = '投稿を編集しました。';
-    } else {
-      $message = '投稿を削除しました。';
     }
     return $view;
   }
