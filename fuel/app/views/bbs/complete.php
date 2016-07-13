@@ -8,7 +8,7 @@
 <body>
   <?= $globalheader ?>
   <div class="container">
-    <p><?php echo $message; ?></p>
+    <p><?php if(isset($message)){ echo $message; } else { echo '操作が完了しました。'; } ?></p>
     <a href="/bbs/" class="btn btn-default">掲示板に戻る</a>
   </div>
 </body>
