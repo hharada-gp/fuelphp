@@ -14,7 +14,7 @@
         <p class="post_comment"><?= $comment['body'] ?></p>
       </li>
     </ul><?php } ?>
-    <form action="/reaction/complete/" method="post" name="bbs">
+    <form action="<?php if(isset($comment)){ echo '/reaction/create/'; } else if(isset($reaction)) { echo '/reaction/update/'.$reaction->id; } ?>" method="post" name="bbs">
       <div class="form-group">
         <label for="reaction_body">リアクション</label>
         <textarea cols="30" rows="10" class="form-control" id="reaction_body" name="reaction_body" placeholder="リアクションを入力してください。"><?php if(isset($reaction)){ echo $reaction['body']; } ?></textarea>

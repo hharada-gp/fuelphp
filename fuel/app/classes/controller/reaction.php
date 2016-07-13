@@ -10,25 +10,24 @@ class Controller_Reaction extends Controller
     $view->comment = Model_Comment::find($id);
     return $view;
   }
-  public function action_complete(){
-    $view = View::forge('bbs/complete');
-    $view->globalheader = View::forge($this->ghpass);
-    $status = Input::post('status');
-    if($status === 'create'){ //view から input[type="hidden"] で status を送るようにしてるけどこれでいいのかわからない
-      $props = array(
-        'body'=>Input::post('reaction_body')
-        );
-      $reaction = new Model_Reaction($props);
-      $reaction->post = Model_Comment::find(Input::post('comment_id')); //view から input[type="hidden"] で元スレッドの id を送るようにしてるけどこれでいいのかわからない
-      $reaction->save();
-      $view->message = 'リアクションを投稿しました。';
-    } else if($status === 'update'){
-      $reaction = Model_Reaction::find(Input::post('reaction_id')); //view から input[type="hidden"] で元スレッドの id を送るようにしてるけどこれでいいのかわからない
-      $reaction->body = Input::post('reaction_body');
-      $reaction->save();
-      $view->message = 'リアクションを編集しました。';
-    }
-    return $view;
+  public function action_create()
+  {
+    $props = array(
+      'body'=>Input::post('reaction_body')
+      );
+    $reaction = new Model_Reaction($props);
+    $reaction->post = Model_Comment::find(Input::post('comment_id'));
+    $reaction->save();
+    $status = Session::set_flash('status', 'reaction_create');
+    Response::redirect('/bbs/');
+  }
+  public function action_update($id)
+  {
+    $reaction = Model_Reaction::find(Input::post('reaction_id'));
+    $reaction->body = Input::post('reaction_body');
+    $reaction->save();
+    $status = Session::set_flash('status', 'reaction_updated');
+    Response::redirect('/bbs/');
   }
   public function action_edit($id){
     $view = View::forge('bbs/reaction');
@@ -38,11 +37,9 @@ class Controller_Reaction extends Controller
     return $view;
   }
   public function action_delete($id){
-    $view = View::forge('bbs/complete');
-    $view->globalheader = View::forge($this->ghpass); 
     $reaction = Model_Reaction::find($id);
     $reaction->delete();
-    $view->message = 'リアクションを削除しました。';
-    return $view;   
+    $status = Session::set_flash('status', 'reaction_deleted');
+    Response::redirect('/bbs/');
   }
 }
