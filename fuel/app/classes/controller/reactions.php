@@ -5,21 +5,22 @@ class Controller_Reactions extends Controller
   public $ghpass = 'bbs/assets/globalheader';
   public function action_new($id)
   {
-    $view = View::forge('bbs/reaction_new');
-    $view->globalheader = View::forge($this->ghpass);
-    $view->comment = Model_Comment::find($id);
-    return $view;
-  }
-  public function action_create()
-  {
-    $props = array(
-      'body'=>Input::post('reaction_body')
-      );
-    $reaction = new Model_Reaction($props);
-    $reaction->post = Model_Comment::find(Input::post('comment_id'));
-    $reaction->save();
-    $status = Session::set_flash('status', 'reaction_created');
-    Response::redirect('/bbs/');
+    $method = Request::main()->get_method();
+    if($method === 'POST'){
+      $props = array(
+        'body'=>Input::post('reaction_body')
+        );
+      $reaction = new Model_Reaction($props);
+      $reaction->post = Model_Comment::find(Input::post('comment_id'));
+      $reaction->save();
+      $status = Session::set_flash('status', 'reaction_created');
+      Response::redirect('/bbs/');
+    } else {
+      $view = View::forge('bbs/reaction_new');
+      $view->globalheader = View::forge($this->ghpass);
+      $view->comment = Model_Comment::find($id);
+      return $view;      
+    }
   }
   public function action_edit($id){
     $reaction = Model_Reaction::find($id);
