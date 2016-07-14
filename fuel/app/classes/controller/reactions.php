@@ -21,22 +21,22 @@ class Controller_Reactions extends Controller
     $status = Session::set_flash('status', 'reaction_created');
     Response::redirect('/bbs/');
   }
-  public function action_update($id)
-  {
-    $reaction = Model_Reaction::find($id);
-    $reaction->body = Input::post('reaction_body');
-    $reaction->save();
-    $status = Session::set_flash('status', 'reaction_updated');
-    Response::redirect('/bbs/');
-  }
   public function action_edit($id){
-    $view = View::forge('bbs/reaction_edit');
-    $view->globalheader = View::forge($this->ghpass);
     $reaction = Model_Reaction::find($id);
-    $comment = $reaction->post;
-    $view->currentreaction = $reaction;
-    $view->currentcomment = $comment;
-    return $view;
+    $method = Request::main()->get_method();
+    if($method === 'POST'){
+      $reaction->body = Input::post('reaction_body');
+      $reaction->save();
+      $status = Session::set_flash('status', 'reaction_updated');
+      Response::redirect('/bbs/');
+    } else {
+      $view = View::forge('bbs/reaction_edit');
+      $view->globalheader = View::forge($this->ghpass);
+      $comment = $reaction->post;
+      $view->currentreaction = $reaction;
+      $view->currentcomment = $comment;
+      return $view;      
+    }
   }
   public function action_delete($id){
     $reaction = Model_Reaction::find($id);

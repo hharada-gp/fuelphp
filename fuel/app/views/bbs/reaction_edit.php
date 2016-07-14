@@ -20,7 +20,7 @@
         </ul>
       </li>
     </ul>
-    <form action="/reactions/update/<?= $currentreaction->id ?>" method="post" name="bbs">
+    <form action="" method="post" name="bbs">
       <div class="form-group">
         <label for="reaction_body">リアクション</label>
         <textarea cols="30" rows="10" class="form-control" id="reaction_body" name="reaction_body"><?= $currentreaction->body ?></textarea>

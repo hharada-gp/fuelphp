@@ -9,7 +9,7 @@
 <body>
   <?= $globalheader ?>
   <div class="container">
-    <form action="/comments/update/<?= $currentcomment->id ?>" method="post" name="bbs">
+    <form action="" method="post" name="bbs">
       <div class="form-group">
         <label for="comment_title">タイトル</label>
         <input type="text" class="form-control" id="comment_title" name="comment_title" value="<?= $currentcomment->title ?>">

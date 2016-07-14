@@ -26,20 +26,21 @@ class Controller_Comments extends Controller
     $status = Session::set_flash('status', 'comment_created');
     Response::redirect('/bbs/');
   }
-  public function action_update($id)
-  {
-    $comment = Model_Comment::find($id);
-    $comment->title = Input::post('comment_title');
-    $comment->body = Input::post('comment_body');
-    $comment->save();
-    $status = Session::set_flash('status', 'comment_updated');
-    Response::redirect('/bbs/');
-  }
   public function action_edit($id){
-    $view = View::forge('bbs/comment_edit');
-    $view->globalheader = View::forge($this->ghpass);
-    $view->currentcomment = Model_Comment::find($id);
-    return $view;
+    $comment = Model_Comment::find($id);
+    $method = Request::main()->get_method();
+    if($method==='POST'){
+      $comment->title = Input::post('comment_title');
+      $comment->body = Input::post('comment_body');
+      $comment->save();
+      $status = Session::set_flash('status', 'comment_updated');
+      Response::redirect('/bbs/');
+    } else {
+      $view = View::forge('bbs/comment_edit');
+      $view->globalheader = View::forge($this->ghpass);
+      $view->currentcomment = $comment;
+      return $view;      
+    }
   }
   public function action_delete($id){
     $comment = Model_Comment::find($id);
