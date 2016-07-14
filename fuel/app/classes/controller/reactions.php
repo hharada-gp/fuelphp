@@ -1,11 +1,11 @@
 <?php
 
-class Controller_Reaction extends Controller
+class Controller_Reactions extends Controller
 {
   public $ghpass = 'bbs/assets/globalheader';
-  public function action_index($id)
+  public function action_new($id)
   {
-    $view = View::forge('bbs/reaction');
+    $view = View::forge('bbs/reaction_new');
     $view->globalheader = View::forge($this->ghpass);
     $view->comment = Model_Comment::find($id);
     return $view;
@@ -18,22 +18,24 @@ class Controller_Reaction extends Controller
     $reaction = new Model_Reaction($props);
     $reaction->post = Model_Comment::find(Input::post('comment_id'));
     $reaction->save();
-    $status = Session::set_flash('status', 'reaction_create');
+    $status = Session::set_flash('status', 'reaction_created');
     Response::redirect('/bbs/');
   }
   public function action_update($id)
   {
-    $reaction = Model_Reaction::find(Input::post('reaction_id'));
+    $reaction = Model_Reaction::find($id);
     $reaction->body = Input::post('reaction_body');
     $reaction->save();
     $status = Session::set_flash('status', 'reaction_updated');
     Response::redirect('/bbs/');
   }
   public function action_edit($id){
-    $view = View::forge('bbs/reaction');
+    $view = View::forge('bbs/reaction_edit');
     $view->globalheader = View::forge($this->ghpass);
-    // $view->comment = Model_Comment::find($id); // 元スレッドのコメント内容を取り出したいけどどうしたらいいのかわからない
-    $view->reaction = Model_Reaction::find($id);
+    $reaction = Model_Reaction::find($id);
+    $comment = $reaction->post;
+    $view->currentreaction = $reaction;
+    $view->currentcomment = $comment;
     return $view;
   }
   public function action_delete($id){

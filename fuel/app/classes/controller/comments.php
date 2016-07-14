@@ -1,5 +1,5 @@
 <?php
-class Controller_Comment extends Controller
+class Controller_Comments extends Controller
 {
   public $ghpass = 'bbs/assets/globalheader';
   public function action_index()
@@ -9,9 +9,9 @@ class Controller_Comment extends Controller
     $view->comments = Model_Comment::find('all');
     return $view;
   }
-  public function action_form()
+  public function action_new()
   {
-    $view = View::forge('bbs/form');
+    $view = View::forge('bbs/comment_new');
     $view->globalheader = View::forge($this->ghpass);
     return $view;
   }
@@ -28,7 +28,6 @@ class Controller_Comment extends Controller
   }
   public function action_update($id)
   {
-    $id = Input::post('comment_id');
     $comment = Model_Comment::find($id);
     $comment->title = Input::post('comment_title');
     $comment->body = Input::post('comment_body');
@@ -37,9 +36,9 @@ class Controller_Comment extends Controller
     Response::redirect('/bbs/');
   }
   public function action_edit($id){
-    $view = View::forge('bbs/form');
+    $view = View::forge('bbs/comment_edit');
     $view->globalheader = View::forge($this->ghpass);
-    $view->edit = Model_Comment::find($id);
+    $view->currentcomment = Model_Comment::find($id);
     return $view;
   }
   public function action_delete($id){

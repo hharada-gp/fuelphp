@@ -1,0 +1,22 @@
+.comment{
+  margin-bottom: 40px;
+}
+.comment_menu{
+  margin-bottom: 15px;
+}
+.reaction{
+  margin-bottom: 10px;
+}
+.reaction_menu{
+  margin: 0 5px;
+}
+.reaction.is-current{
+  color: #f00;
+}
+.status {
+  border: 1px solid #507daf;
+  border-radius: 5px;
+  color: #507daf;
+  margin: 0 0 10px;
+  padding: 10px;
+}
