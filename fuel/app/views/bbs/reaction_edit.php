@@ -20,14 +20,14 @@
         </ul>
       </li>
     </ul>
-    <form action="" method="post" name="bbs">
+    <?= Form::open(array('method'=>'post', 'name'=>'bbs')); ?>
       <div class="form-group">
-        <label for="reaction_body">リアクション</label>
-        <textarea cols="30" rows="10" class="form-control" id="reaction_body" name="reaction_body"><?= $currentreaction->body ?></textarea>
+        <?= Form::label('リアクション', 'reaction_body'); ?>
+        <?= Form::textarea('reaction_body', $currentreaction->body, array('cols'=>'30', 'rows'=>'10', 'class'=>'form-control', 'id'=>'reaction_body', 'placeholder'=>'リアクションを入力してください。')); ?>
       </div>
       <a href="/bbs/" class="btn btn-default">戻る</a>
-      <button type="submit" class="btn btn-primary">編集する</button>
-    </form>
+      <?= Form::button('reaction_submit', '投稿する', array('type'=>'submit', 'class'=>'btn btn-primary')); ?>
+    <?= Form::close(); ?>
   </div>
 </body>
 </html>

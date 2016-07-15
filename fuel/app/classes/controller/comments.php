@@ -29,6 +29,9 @@ class Controller_Comments extends Controller
   }
   public function action_edit($id){
     $comment = Model_Comment::find($id);
+    if(!$comment){
+      Response::redirect('/bbs/');
+    }
     $method = Request::main()->get_method();
     if($method==='POST'){
       $comment->title = Input::post('comment_title');
@@ -45,6 +48,9 @@ class Controller_Comments extends Controller
   }
   public function action_delete($id){
     $comment = Model_Comment::find($id);
+    if(!$comment){
+      Response::redirect('/bbs/');
+    }
     $comment->delete();
     $status = Session::set_flash('status', 'comment_deleted');
     Response::redirect('/bbs/');

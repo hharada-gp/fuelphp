@@ -24,6 +24,9 @@ class Controller_Reactions extends Controller
   }
   public function action_edit($id){
     $reaction = Model_Reaction::find($id);
+    if(!$reaction){
+      Response::redirect('/bbs/');
+    }
     $method = Request::main()->get_method();
     if($method === 'POST'){
       $reaction->body = Input::post('reaction_body');
@@ -41,6 +44,9 @@ class Controller_Reactions extends Controller
   }
   public function action_delete($id){
     $reaction = Model_Reaction::find($id);
+    if(!$reaction){
+      Response::redirect('/bbs/');
+    }
     $reaction->delete();
     $status = Session::set_flash('status', 'reaction_deleted');
     Response::redirect('/bbs/');

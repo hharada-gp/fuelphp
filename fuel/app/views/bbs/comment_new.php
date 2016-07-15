@@ -9,18 +9,18 @@
 <body>
   <?= $globalheader ?>
   <div class="container">
-    <form action="" method="post" name="bbs">
+    <?= Form::open(array('method'=>'post', 'name'=>'bbs')); ?>
       <div class="form-group">
-        <label for="comment_title">タイトル</label>
-        <input type="text" class="form-control" id="comment_title" name="comment_title" placeholder="タイトルを入力してください。">
+        <?= Form::label('タイトル', 'comment_title'); ?>
+        <?= Form::input('comment_title', '', array('placeholder'=>'タイトルを入力してください。', 'class'=>'form-control', 'id'=>'comment_title')); ?>
       </div>
       <div class="form-group">
-        <label for="comment_body">コメント</label>
-        <textarea cols="30" rows="10" class="form-control" id="comment_body" name="comment_body" placeholder="コメントを入力してください。"></textarea>
+        <?= Form::label('コメント', 'comment_body'); ?>
+        <?= Form::textarea('comment_body', '', array('placeholder'=>'コメントを入力してください。', 'class'=>'form-control', 'id'=>'comment_body', 'cols'=>'30', 'rows'=>'10')); ?>
       </div>
       <a href="/bbs/" class="btn btn-default">戻る</a>
-      <button type="submit" class="btn btn-primary">投稿する</button>
-    </form>
+      <?= Form::button('comment_submit', '投稿する', array('type'=>'submit', 'class'=>'btn btn-primary')) ?>
+    <?= Form::close(); ?>
   </div>
 </body>
 </html>
